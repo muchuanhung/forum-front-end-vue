@@ -299,6 +299,7 @@ export default {
     NavTabs,
     RestaurantCard
   },
+
   data () {
     return {
       restaurants: [],
@@ -311,9 +312,11 @@ export default {
 
     }
   },
+
   created(){
     this.fetchRestaurants()
   },
+
   methods: {
     fetchRestaurants () {
       const {
