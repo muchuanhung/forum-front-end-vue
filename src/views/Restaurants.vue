@@ -1,18 +1,17 @@
 <template>
   <div class="container py-5">
-    <!-- 使用 NavTabs 元件 -->
     <NavTabs />
     <!-- 餐廳類別標籤 RestaurantsNavPills -->
 
     <div class="row">
       <!-- 餐廳卡片 RestaurantCard-->
-      <!-- 賦予 RestaurantCard 一個自訂屬性 initial-restaurant-->
-      <Restaurantcard
-        v-for="restaurant in restaurants"
-        :key="restaurant.id"
-        :initial-restaurant="restaurant"
-        />
+      <RestaurantCard 
+      v-for="restaurant in restaurants"
+      :key="restaurant.id"
+      :initial-restaurant="restaurant"
+      />
     </div>
+
 
     <!-- 分頁標籤 RestaurantPagination -->
   </div>
@@ -23,8 +22,7 @@ import NavTabs from './../components/NavTabs'
 import RestaurantCard from './../components/RestaurantCard'
 
 const dummyData = {
-
-    "restaurants": [
+    restaurants: [
         {
             "id": 1,
             "name": "Alison Hills",
@@ -236,7 +234,8 @@ const dummyData = {
             "isLiked": false
         }
     ],
-    "categories": [
+
+    categories: [
         {
             "id": 1,
             "name": "中式料理",
@@ -280,26 +279,18 @@ const dummyData = {
             "updatedAt": "2021-11-10T13:32:53.000Z"
         }
     ],
-    "categoryId": "",
-    "page": 1,
-    "totalPage": [
-        1,
-        2,
-        3,
-        4,
-        5
-    ],
-    "prev": 1,
-    "next": 2
-
+    categoryId: '',
+    page: 1,
+    totalPage: [1, 2, 3, 4, 5],
+    prev: 1,
+    next: 2
 }
 
 export default {
-   components: {
+  components: {
     NavTabs,
     RestaurantCard
   },
-
   data () {
     return {
       restaurants: [],
@@ -312,11 +303,9 @@ export default {
 
     }
   },
-
   created(){
     this.fetchRestaurants()
   },
-
   methods: {
     fetchRestaurants () {
       const {
