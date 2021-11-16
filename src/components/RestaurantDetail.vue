@@ -1,25 +1,42 @@
-<!-- 綁定瀏覽器的原生事件需加上stop prevent -->
 <template>
-  <div class="col-md-6 col-lg-4">
-    <div class="card mb-4">
-        <img
-        class="card-img-top"
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <h1>{{restaurant.name}}</h1>
+      <p class="badge badge-secondary mt-1 mb-3">
+        {{restaurant.Categoryname}}
+      </p>
+    </div>
+    <div class="col-lg-4">
+      <img
+        class="img-responsive center-block" 
         :src="restaurant.image"
-        alt="Card image cap"
-        width="286px"
-        height="180px"
+        style="width: 250px;margin-bottom: 25px;"
       >
-      <div class="card-body">
-        <p class="card-text title-wrap">
-          <a href="#">{{ restaurant.name }}</a>
-        </p>
-        <span class="badge badge-secondary">{{ restaurant.Category.name }}</span>
-        <p class="card-text text-truncate">
-          {{ restaurant.description }}
-        </p>
+      <div class="contact-info-wrap">
+        <ul class="list-unstyled">
+          <li>
+            <strong>Opening Hour:</strong>
+            {{restaurant.openingHours}}
+          </li>
+          <li>
+            <strong>Tel:</strong>
+            {{restaurant.tel}}
+          </li>
+          <li>
+            <strong>Address:</strong>
+            {{restaurant.address}}
+          </li>
+        </ul>
       </div>
-      <div class="card-footer">
-        <button
+    </div>
+    <div class="col-lg-8">
+      <p>{{ restaurant.description }}</p>
+      <a
+        class="btn btn-primary btn-border mr-2"
+        href="#"
+      >Dashboard</a>
+
+      <button
           v-if="restaurant.isFavorited"
           type="button"
           class="btn btn-danger btn-border favorite mr-2"
@@ -51,10 +68,10 @@
         >
           Like
         </button>
-      </div>
     </div>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -64,11 +81,13 @@ export default {
       required: true
     }
   },
+
   data () {
     return {
       restaurant: this.initialRestaurant
     }
   },
+
    //步驟1加入事件處理
    methods: {
     addFavorite () {

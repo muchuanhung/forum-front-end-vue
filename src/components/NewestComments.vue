@@ -23,20 +23,12 @@
 
 <!-- 子元件加上props屬性 -->
 <script>
-// 先將 moment 載入進來
-import moment from 'moment'
+// 載入撰寫好的 mixin
+import { fromNowFilter } from './../utils/mixins.js'
 
 export default {
-  //優化:顯示人性化時間
-   filters: {
-    fromNow (datetime) {
-      if (!datetime) {
-        return '-'
-      }
-      // 使用 moment 提供的 fromNow 方法
-      return moment(datetime).fromNow()
-    }
-  },
+ // 透過 mixins 屬性將撰寫好的 mixin 放入
+  mixins: [fromNowFilter],
   props: {
     comments: {
       type: Array,

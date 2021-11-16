@@ -29,11 +29,11 @@ const routes = [
       component: () => import('../views/SignUp.vue')
   },
     //餐廳首頁
-   {
+  {
       path: '/restaurants',
       name: 'restaurants',
       component: Restaurants
-    },
+  },  
     //最新動態
   {
       path: '/restaurants/feeds',
@@ -45,6 +45,12 @@ const routes = [
       path: '/restaurants/top',
       name: 'restaurants-tops',
       component: () => import('../views/RestaurantsTop.vue')
+  },
+     //餐廳個別頁-用:id來定義動態路徑參數
+  {
+      path: '/restaurants/:id',
+      name: 'restaurant',
+      component: () => import('../views/Restaurant.vue')
   },
     //美食達人
   {

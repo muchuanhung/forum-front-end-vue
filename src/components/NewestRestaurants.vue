@@ -1,55 +1,52 @@
 <template>
   <div class="card">
-    <div class="card-header">
-      最新餐廳
-    </div>
-     <div class="card-body">
-      <div
-        v-for="restaurant in restaurants"
-        :key="restaurant.id"
-      >
+    <div class="card-header">最新餐廳</div>
+    <div class="card-body">
+      <!-- v-for start -->
+      <div v-for="restaurant in restaurants" :key="restaurant.id">
         <h4>
-          <a href="#">{{ restaurant.name }}</a>
-          &nbsp;
-          <small>{{ restaurant.Category ? restaurant.Category.name : '未分類'
- }}</small>
+          <router-link
+            :to="{ name: 'restaurant', params: { id: restaurant.id }}"
+          >{{ restaurant.name }}</router-link>
+          <small>{{
+            restaurant.Category ? restaurant.Category.name : ""
+          }}</small>
         </h4>
-        <p>{{ restaurant.description }}</p>
+        <p class="px-2 text-limit">{{ restaurant.description }}</p>
         {{ restaurant.createdAt | fromNow }}
-        <hr>
+        <hr />
       </div>
+      <!-- v-for end -->
     </div>
   </div>
 </template>
 
-<style scoped>
-small {
-  font-size: 10px;
-}
-</style>
-
-
-<!-- 子元件加上props屬性 -->
 <script>
-// 先將 moment 載入進來
-import moment from 'moment'
-
+// 載入撰寫好的 mixin
+import { fromNowFilter } from './../utils/mixins'
 export default {
-  //優化:顯示人性化時間
-   filters: {
-    fromNow (datetime) {
-      if (!datetime) {
-        return '-'
-      }
-      // 使用 moment 提供的 fromNow 方法
-      return moment(datetime).fromNow()
-    }
-  },
+   // 透過 mixins 屬性將撰寫好的 mixin 放入
+  mixins: [fromNowFilter],
   props: {
     restaurants: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   }
-}
+};
 </script>
+
+
+<style scoped>
+small {
+  margin: 0 8px;
+  font-size: 10px;
+}
+.text-limit {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
