@@ -31,10 +31,11 @@
     </div>
     <div class="col-lg-8">
       <p>{{ restaurant.description }}</p>
-      <a
-        class="btn btn-primary btn-border mr-2"
-        href="#"
-      >Dashboard</a>
+       <router-link
+        class="btn me-2 btn-secondary btn-border mr-2"
+        :to="{ name: 'restaurant-dashboard', params: {id: restaurant.id} }"
+        >Dashboard</router-link
+      >
 
       <button
           v-if="restaurant.isFavorited"

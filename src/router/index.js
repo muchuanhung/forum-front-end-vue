@@ -58,6 +58,18 @@ const routes = [
       name: 'users-top',
       component: () => import('../views/UsersTop.vue')
   },
+  //管理頁面
+    {
+      path: '/admin',
+      exact: true,
+      redirect: '/admin/restaurants'
+    },
+  //管理頁面個人餐廳  
+    {
+      path: '/admin/restaurants',
+      name: 'admin-restaurants',
+      component: () => import('../views/AdminRestaurants.vue')
+    },  
     //搜索不到頁面
   {
     //星號 (*) 是萬用字元，這裡代表「所有的網址」
@@ -69,7 +81,6 @@ const routes = [
 
 const router = new VueRouter({
   linkExactActiveClass: 'active',
-  mode: 'hash',
   routes
 })
 

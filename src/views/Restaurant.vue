@@ -14,12 +14,18 @@
     />
 
     <!-- 新增評論 CreateComment -->
+    <!-- v-on父元件監聽子元件事件 -->
+    <CreateComment 
+      :restaurant-id="restaurant.id"
+      @after-create-comment="afterCreateComment"
+    />
   </div>
 </template>
 
 <script>
 import RestaurantDetail from './../components/RestaurantDetail.vue'
 import RestaurantComments from './../components/RestaurantComments.vue'
+import CreateComment from './../components/CreateComment.vue'
 
 const dummyData = {
   //宣告api資料取得
@@ -67,12 +73,25 @@ const dummyData = {
     "isFavorited": false,
     "isLiked": false
   
-}
+};
+
+const dummyUser = {
+  currentUser: {
+    id: 1,
+    name: '管理者',
+    email: 'root@example.com',
+    image: 'https://i.pravatar.cc/300',
+    isAdmin: true
+  },
+  isAuthenticated: true
+};
+
 
 export default {
  components: {
     RestaurantDetail,
-    RestaurantComments
+    RestaurantComments,
+    CreateComment
   },
   //使用 data 函式來回傳method上一步設定好的資料
   data () {
@@ -89,6 +108,7 @@ export default {
         isFavorited: false,
         isLiked: false
       },
+      currentUser: dummyUser.currentUser,
       restaurantComments: []
     }
   },
@@ -124,6 +144,22 @@ export default {
       this.restaurantComments = this.restaurantComments.filter(
         comment => comment.id !== commentId
       );
+    },
+
+      //父元件更新頁面狀態
+     afterCreateComment (payload) {
+      const { commentId, restaurantId, text } = payload
+      //使用解構賦值把物件內容拿出來
+      this.restaurantComments.push({
+        id: commentId,
+        RestaurantId: restaurantId,
+        User: {
+          id: this.currentUser.id,
+          name: this.currentUser.name
+        },
+        text,
+        createdAt: new Date()
+      })
     }
   }
 }
