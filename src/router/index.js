@@ -59,17 +59,35 @@ const routes = [
       component: () => import('../views/UsersTop.vue')
   },
   //管理頁面
-    {
+  {
       path: '/admin',
       exact: true,
       redirect: '/admin/restaurants'
-    },
+  },
   //管理頁面個人餐廳  
-    {
+  {
       path: '/admin/restaurants',
       name: 'admin-restaurants',
       component: () => import('../views/AdminRestaurants.vue')
-    },  
+  }, 
+  //頁面元件-有指定名稱的路由都要放在動態路由前面  
+  {
+      path: '/admin/restaurants/new',
+      name: 'admin-restaurant-new',
+      component: () => import('../views/AdminRestaurantNew.vue')
+  },   
+  //管理頁面個人頁面  
+  {
+      path: '/admin/restaurants/:id',
+      name: 'admin-restaurant',
+      component: () => import('../views/AdminRestaurant.vue')
+  }, 
+  //後台編輯餐廳
+  {
+      path: '/admin/restaurants/:id/edit',
+      name: 'admin-restaurant-edit',
+      component: () => import('../views/AdminRestaurantEdit.vue')
+  },  
     //搜索不到頁面
   {
     //星號 (*) 是萬用字元，這裡代表「所有的網址」

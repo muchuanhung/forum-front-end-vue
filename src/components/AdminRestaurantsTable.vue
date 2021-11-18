@@ -30,19 +30,25 @@
         <td>{{ restaurant.Category ? restaurant.Category.name : '未分類' }}</td>
         <td>{{ restaurant.name }}</td>
         <td class="d-flex justify-content-between">
-          <a
-            href="#"
-            class="btn btn-link"
-          >Show</a>
+          <router-link :to="{name: 'admin-restaurant', params: {id: restaurant.id}}" class="btn btn-link">
+            Show
+          </router-link>
 
-          <a
-            href="#"
+          <router-link
+            :to="{
+              name: 'admin-restaurant-edit',
+              params:{
+                id: restaurant.id
+                }
+              }"
             class="btn btn-link"
-          >Edit</a>
+          >Edit
+          </router-link>
 
           <button
             type="button"
             class="btn btn-link"
+            @click.stop.prevent="deleteRestaurant(restaurant.id)"
           >
             Delete
           </button>
@@ -1020,7 +1026,13 @@ export default {
   methods: {
     fetchRestaurants () {
       this.restaurants = dummyData.restaurants
-    }
+    },
+  //當使用者點擊 Delete 按鈕時，就會觸發 deleteRestaurant，並且告知函式被刪除的 restaurant.id。接下來在 deleteRestaurant 裡，就可以運用 filter 重新過濾一次資料陣列，把「不是 restaurant.id 的資料保留下來」。  
+  deleteRestaurant (restaurantId) {
+      this.restaurants = this.restaurants.filter(
+        restaurant => restaurant.id !== restaurantId
+      )
+    }    
   }
 }
 </script>

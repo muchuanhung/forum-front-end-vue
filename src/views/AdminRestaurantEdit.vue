@@ -1,0 +1,97 @@
+<template>
+  <div class="container py-5">
+    <AdminRestaurantForm 
+     :initial-restaurant="restaurant"
+     @after-submit="handleAfterSubmit" 
+    />
+  </div>
+</template>
+
+<script>
+import AdminRestaurantForm from './../components/AdminRestaurantForm.vue'
+
+//設定種子資料
+const dummyData = {
+  'restaurant': {
+    'id': 1,
+    'name': 'Laurence Reynolds',
+    'tel': '1-657-067-3756 x9782',
+    'address': '187 Kirlin Squares',
+    'opening_hours': '08:00',
+    'description': 'sit est mollitia',
+    'image': 'https://loremflickr.com/320/240/restaurant,food/?random=91.29816290184887',
+    'viewCounts': 1,
+    'createdAt': '2019-07-30T16:24:55.432Z',
+    'updatedAt': '2019-07-30T17:26:43.260Z',
+    'CategoryId': 3,
+    'Category': {
+      'id': 3,
+      'name': '義大利料理',
+      'createdAt': '2019-07-30T16:24:55.429Z',
+      'updatedAt': '2019-07-30T16:24:55.429Z'
+    }
+  }
+}
+
+export default {
+  components: {
+    AdminRestaurantForm
+  },
+
+   data () {
+    return {
+      restaurant: {
+        id: -1,
+        name: '',
+        categoryId: '',
+        tel: '',
+        address: '',
+        description: '',
+        image: '',
+        openingHours: ''
+      }
+    }
+  },
+  //這裡我們透過 this.$route.params 取得網址上的 id，才會知道現在編輯的是哪一筆餐廳資料
+
+    created () {
+    const { id } = this.$route.params
+    this.fetchRestaurant(id)
+  },
+  methods: {
+     fetchRestaurant (restaurantId) {
+      console.log('fetchRestaurant id:', restaurantId)
+      const { restaurant } = dummyData
+      //用解構賦值
+      const {
+        id,
+        name,
+        Category,
+        image,
+        opening_hours:openingHours,
+        tel,
+        address,
+        description
+       } = restaurant
+      this.restaurant = {
+        ...this.restaurant,
+        id,
+        name,
+        //if 存在回傳name else未分類
+        categoryId: Category ? Category.Id : '未分類',
+        tel,
+        address,
+        description,
+        image,
+        openingHours
+      }
+    },
+    handleAfterSubmit (formData) {
+      // 透過 API 將表單資料送到伺服器
+      for (let [name, value] of formData.entries()) {
+        console.log(name + ': ' + value)
+      }
+    }
+  }
+}
+</script>
