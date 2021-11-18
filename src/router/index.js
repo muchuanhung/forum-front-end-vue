@@ -52,11 +52,27 @@ const routes = [
       name: 'restaurant',
       component: () => import('../views/Restaurant.vue')
   },
+  {
+    path: '/restaurants/:id/dashboard',
+    name: 'restaurant-dashboard',
+    component: () => import('../views/RestaurantDashboard')
+  },
     //美食達人
   {
       path: '/users/top',
       name: 'users-top',
       component: () => import('../views/UsersTop.vue')
+  },
+  {
+    path: '/users/:id',
+    name: 'user',
+    component: () => import('../views/User.vue')
+  },
+    //美食達人-編輯使用者資料
+  {
+    path: '/users/:id/edit',
+    name: 'user-edit',
+    component: () => import('../views/UserEdit.vue')
   },
   //管理頁面
   {
@@ -88,6 +104,17 @@ const routes = [
       name: 'admin-restaurant-edit',
       component: () => import('../views/AdminRestaurantEdit.vue')
   },  
+  //管理頁面餐廳類別後台
+  {
+      path: '/admin/categories',
+      name: 'admin-categories',
+      component: () => import('../views/AdminCategories.vue')
+  },  
+  {
+    path: '/admin/users',
+    name: 'admin-users',
+    component: () => import('../views/AdminUsers.vue')
+  },
     //搜索不到頁面
   {
     //星號 (*) 是萬用字元，這裡代表「所有的網址」
