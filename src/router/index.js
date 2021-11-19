@@ -63,6 +63,7 @@ const routes = [
       name: 'users-top',
       component: () => import('../views/UsersTop.vue')
   },
+    //User Profile頁面
   {
     path: '/users/:id',
     name: 'user',
@@ -109,7 +110,8 @@ const routes = [
       path: '/admin/categories',
       name: 'admin-categories',
       component: () => import('../views/AdminCategories.vue')
-  },  
+  },
+  //使用者權限管理  
   {
     path: '/admin/users',
     name: 'admin-users',
