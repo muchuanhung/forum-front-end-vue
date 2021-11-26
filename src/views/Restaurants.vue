@@ -30,6 +30,8 @@ import NavTabs from './../components/NavTabs'
 import RestaurantCard from './../components/RestaurantCard'
 import RestaurantsNavPills from './../components/RestaurantsNavPills'
 import RestaurantsPagination from './../components/RestaurantsPagination.vue'
+// STEP 1：透過 import 匯入剛剛撰寫好用來呼叫 API 的方法
+import restaurantsAPI from './../apis/restaurants'
  
 
 const dummyData = {
@@ -317,28 +319,26 @@ export default {
     }
   },
   created(){
-    this.fetchRestaurants()
+    //這裡會向伺服器請求第一頁且不分餐廳類別的資料
+    this.fetchRestaurants({
+      page: 1,
+      categoryId: ''
+    })
   },
   methods: {
-    fetchRestaurants () {
-      const {
-        restaurants,
-        categories,
-        categoryId,
-        page,
-        totalPage,
-        prev,
-        next
-      } = dummyData
-      this.restaurants = restaurants
-      this.categories = categories
-      this.categoryId = categoryId
-      this.currentPage = page
-      this.totalPage = totalPage
-      this.previousPage = prev
-      this.nextPage = next
-    }
+     //改寫async/await用法 
+   async fetchRestaurants ({ page, categoryId }) {
+      try {
+        const response = await restaurantsAPI.getRestaurants({
+          page,
+          categoryId
+        })
+        console.log('response', response)
 
+      } catch (error) {
+        console.log('error', error)
+      }
+    }
   }
 }
 </script>
