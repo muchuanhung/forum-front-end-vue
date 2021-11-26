@@ -3,13 +3,23 @@
 //攜帶 page 和 categoryId 參數
 
 
-import { apiHelper } from './../utils/helpers'
+import { apiHelper } from '../utils/helpers'
 const getToken = () => localStorage.getItem('token')
 
 export default {
-  getRestaurants ({ page, categoryId }) {
-    const searchParams = new URLSearchParams({ page, categoryId })
-    return apiHelper.get(`/restaurants?${searchParams.toString()}`, {
+  getRestaurants({ page, categoryID }) {
+    const searchParams = new URLSearchParams({ page, categoryID })
+    return apiHelper.get(`/restaurants?${searchParams}`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  getFeeds() {
+    return apiHelper.get('/restaurants/feeds', {
+      headers: { Authorization: `Bearer ${getToken()} ` }
+    })
+  },
+  getRestaurantsTop() {
+    return apiHelper.get(`/restaurants/top`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   }

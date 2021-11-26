@@ -32,272 +32,8 @@ import RestaurantsNavPills from './../components/RestaurantsNavPills'
 import RestaurantsPagination from './../components/RestaurantsPagination.vue'
 // STEP 1：透過 import 匯入剛剛撰寫好用來呼叫 API 的方法
 import restaurantsAPI from './../apis/restaurants'
+import { Toast } from './../utils/helpers'
  
-
-const dummyData = {
-    restaurants: [
-        {
-            "id": 1,
-            "name": "Alison Hills",
-            "tel": "596-073-7406 x399",
-            "address": "3910 Norene Manors",
-            "opening_hours": "08:00",
-            "description": "Ut quia nostrum ea et commodi nisi esse at. Omnis ",
-            "image": "https://loremflickr.com/320/240/restaurant,food/?random=81.24054586968803",
-            "viewCounts": 0,
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z",
-            "CategoryId": 2,
-            "Category": {
-                "id": 2,
-                "name": "日本料理",
-                "createdAt": "2021-11-10T13:32:53.000Z",
-                "updatedAt": "2021-11-10T13:32:53.000Z"
-            },
-            "isFavorited": false,
-            "isLiked": false
-        },
-        {
-            "id": 2,
-            "name": "Skylar Auer",
-            "tel": "(732) 880-4192 x065",
-            "address": "43152 Conn Glens",
-            "opening_hours": "08:00",
-            "description": "In perferendis velit et optio qui totam. Sint sequ",
-            "image": "https://loremflickr.com/320/240/restaurant,food/?random=75.77621067602432",
-            "viewCounts": 0,
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z",
-            "CategoryId": 3,
-            "Category": {
-                "id": 3,
-                "name": "義大利料理",
-                "createdAt": "2021-11-10T13:32:53.000Z",
-                "updatedAt": "2021-11-10T13:32:53.000Z"
-            },
-            "isFavorited": false,
-            "isLiked": false
-        },
-        {
-            "id": 3,
-            "name": "Lizeth Gaylord",
-            "tel": "1-048-177-0072",
-            "address": "081 Watsica Spur",
-            "opening_hours": "08:00",
-            "description": "Exercitationem et suscipit maxime porro animi aute",
-            "image": "https://loremflickr.com/320/240/restaurant,food/?random=85.44129612894935",
-            "viewCounts": 0,
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z",
-            "CategoryId": 2,
-            "Category": {
-                "id": 2,
-                "name": "日本料理",
-                "createdAt": "2021-11-10T13:32:53.000Z",
-                "updatedAt": "2021-11-10T13:32:53.000Z"
-            },
-            "isFavorited": false,
-            "isLiked": false
-        },
-        {
-            "id": 4,
-            "name": "Arvilla Graham",
-            "tel": "(225) 355-6363",
-            "address": "893 Domenick Mountains",
-            "opening_hours": "08:00",
-            "description": "voluptate",
-            "image": "https://loremflickr.com/320/240/restaurant,food/?random=31.514761397883028",
-            "viewCounts": 0,
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z",
-            "CategoryId": 3,
-            "Category": {
-                "id": 3,
-                "name": "義大利料理",
-                "createdAt": "2021-11-10T13:32:53.000Z",
-                "updatedAt": "2021-11-10T13:32:53.000Z"
-            },
-            "isFavorited": false,
-            "isLiked": false
-        },
-        {
-            "id": 5,
-            "name": "Mr. Eva Kunze",
-            "tel": "1-766-279-6555 x028",
-            "address": "30276 Amos View",
-            "opening_hours": "08:00",
-            "description": "fugit",
-            "image": "https://loremflickr.com/320/240/restaurant,food/?random=78.29475445213781",
-            "viewCounts": 0,
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z",
-            "CategoryId": 2,
-            "Category": {
-                "id": 2,
-                "name": "日本料理",
-                "createdAt": "2021-11-10T13:32:53.000Z",
-                "updatedAt": "2021-11-10T13:32:53.000Z"
-            },
-            "isFavorited": false,
-            "isLiked": false
-        },
-        {
-            "id": 6,
-            "name": "Dewitt Kertzmann II",
-            "tel": "1-119-895-2832 x782",
-            "address": "12126 Russel Forks",
-            "opening_hours": "08:00",
-            "description": "Aliquam aliquid odit et totam. Illo aut provident ",
-            "image": "https://loremflickr.com/320/240/restaurant,food/?random=86.69060670371908",
-            "viewCounts": 0,
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z",
-            "CategoryId": 5,
-            "Category": {
-                "id": 5,
-                "name": "素食料理",
-                "createdAt": "2021-11-10T13:32:53.000Z",
-                "updatedAt": "2021-11-10T13:32:53.000Z"
-            },
-            "isFavorited": false,
-            "isLiked": false
-        },
-        {
-            "id": 7,
-            "name": "Irving Kub MD",
-            "tel": "(632) 322-4778 x32373",
-            "address": "6312 Bosco Valleys",
-            "opening_hours": "08:00",
-            "description": "Quos ut voluptatem odit hic omnis mollitia alias. ",
-            "image": "https://loremflickr.com/320/240/restaurant,food/?random=8.045937945941727",
-            "viewCounts": 0,
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z",
-            "CategoryId": 2,
-            "Category": {
-                "id": 2,
-                "name": "日本料理",
-                "createdAt": "2021-11-10T13:32:53.000Z",
-                "updatedAt": "2021-11-10T13:32:53.000Z"
-            },
-            "isFavorited": false,
-            "isLiked": false
-        },
-        {
-            "id": 8,
-            "name": "Ms. Carolina Kemmer",
-            "tel": "(001) 990-9233 x68602",
-            "address": "146 McGlynn Lake",
-            "opening_hours": "08:00",
-            "description": "esse repellendus eligendi",
-            "image": "https://loremflickr.com/320/240/restaurant,food/?random=22.798806352041325",
-            "viewCounts": 0,
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z",
-            "CategoryId": 4,
-            "Category": {
-                "id": 4,
-                "name": "墨西哥料理",
-                "createdAt": "2021-11-10T13:32:53.000Z",
-                "updatedAt": "2021-11-10T13:32:53.000Z"
-            },
-            "isFavorited": false,
-            "isLiked": false
-        },
-        {
-            "id": 9,
-            "name": "Brionna Kuhn",
-            "tel": "072.428.5465 x588",
-            "address": "12082 Hosea Road",
-            "opening_hours": "08:00",
-            "description": "Vitae dolorem repellendus nihil autem eius corrupt",
-            "image": "https://loremflickr.com/320/240/restaurant,food/?random=61.278514642619",
-            "viewCounts": 0,
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z",
-            "CategoryId": 4,
-            "Category": {
-                "id": 4,
-                "name": "墨西哥料理",
-                "createdAt": "2021-11-10T13:32:53.000Z",
-                "updatedAt": "2021-11-10T13:32:53.000Z"
-            },
-            "isFavorited": false,
-            "isLiked": false
-        },
-        {
-            "id": 10,
-            "name": "Deja Kunze",
-            "tel": "(997) 000-5181 x8099",
-            "address": "33236 Kaley Meadows",
-            "opening_hours": "08:00",
-            "description": "Commodi amet quia a sed nesciunt saepe dolore eaqu",
-            "image": "https://loremflickr.com/320/240/restaurant,food/?random=7.311561035151315",
-            "viewCounts": 0,
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z",
-            "CategoryId": 3,
-            "Category": {
-                "id": 3,
-                "name": "義大利料理",
-                "createdAt": "2021-11-10T13:32:53.000Z",
-                "updatedAt": "2021-11-10T13:32:53.000Z"
-            },
-            "isFavorited": false,
-            "isLiked": false
-        }
-    ],
-
-    categories: [
-        {
-            "id": 1,
-            "name": "中式料理",
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z"
-        },
-        {
-            "id": 2,
-            "name": "日本料理",
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z"
-        },
-        {
-            "id": 3,
-            "name": "義大利料理",
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z"
-        },
-        {
-            "id": 4,
-            "name": "墨西哥料理",
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z"
-        },
-        {
-            "id": 5,
-            "name": "素食料理",
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z"
-        },
-        {
-            "id": 6,
-            "name": "美式料理",
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z"
-        },
-        {
-            "id": 7,
-            "name": "複合式料理",
-            "createdAt": "2021-11-10T13:32:53.000Z",
-            "updatedAt": "2021-11-10T13:32:53.000Z"
-        }
-    ],
-    categoryId: '',
-    page: 1,
-    totalPage: [1, 2, 3, 4, 5],
-    prev: 1,
-    next: 2
-}
 
 export default {
   components: {
@@ -319,24 +55,53 @@ export default {
     }
   },
   created(){
-    //這裡會向伺服器請求第一頁且不分餐廳類別的資料
-    this.fetchRestaurants({
-      page: 1,
-      categoryId: ''
-    })
+    //這裡會向伺服器請求第一頁且不分餐廳類別的資料 & 用this.$route.query取得動態路由資訊
+    const { page = '', categoryId = '' } = this.$route.query
+    this.fetchRestaurants({ queryPage: page, queryCategoryId: categoryId })
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    //解決網址改變不會刷新內容-beforeRouteUpdate
+    const { page = '', categoryId = '' } = to.query
+    this.fetchRestaurants({ queryPage: page, queryCategoryId: categoryId })
+    next()
   },
   methods: {
      //改寫async/await用法 
-   async fetchRestaurants ({ page, categoryId }) {
+     async fetchRestaurants ({ queryPage, queryCategoryId }) {
       try {
         const response = await restaurantsAPI.getRestaurants({
-          page,
-          categoryId
+          page: queryPage,
+          categoryId: queryCategoryId
         })
-        console.log('response', response)
 
+
+         // STEP 2：透過解構賦值，將所需要的資料從 response.data 取出
+         // 使用解構複值的方式
+        const {
+          restaurants,
+          categories,
+          categoryId,
+          page,
+          totalPage,
+          prev,
+          next
+        } = response.data
+
+        // STEP 3：將從伺服器取得的 data 帶入 Vue 內
+        this.restaurants = restaurants
+        this.categories = categories
+        this.categoryId = categoryId
+        this.currentPage = page
+        this.totalPage = totalPage
+        this.previousPage = prev
+        this.nextPage = next
       } catch (error) {
         console.log('error', error)
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得餐廳資料，請稍後再試'
+        })
       }
     }
   }
