@@ -1052,7 +1052,7 @@ const dummyData = {
     "isFollowed": false
 };
 
-//設定種子資料
+//設定種子資料 & 建立暫時用的登入使用者資訊 dummyUser
 const dummyUser = {
   currentUser: {
     id: 1,

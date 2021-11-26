@@ -2,6 +2,7 @@
   <div class="card mb-4">
     <div class="row no-gutters">
       <div class="col-sm-7 col-md-5 col-lg-4">
+        <!-- 從 User 傳入資料給 UserProfileCard -->
         <img :src="userProfile.image" width="300px" height="300px" />
       </div>
       <div class="col-sm-5 col-md-7 col-lg-8">
