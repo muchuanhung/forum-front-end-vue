@@ -47,28 +47,10 @@
 
 <script>
 import { emptyImageFilter } from './../utils/mixins'
+// STEP 1: 載入 adminAPI 和 Toast
+import adminAPI from '../apis/admin.js'
+import { Toast } from '../utils/helpers.js'
 
-const dummyData = {
-  restaurant: {
-    id: 2,
-    name: 'Mrs. Mckenzie Johnston',
-    tel: '567-714-6131 x621',
-    address: '61371 Rosalinda Knoll',
-    opening_hours: '08:00',
-    description:
-      'Quia pariatur perferendis architecto tenetur omnis pariatur tempore.',
-    image: 'https://loremflickr.com/320/240/food,dessert,restaurant/?random=2',
-    createdAt: '2019-06-22T09:00:43.000Z',
-    updatedAt: '2019-06-22T09:00:43.000Z',
-    CategoryId: 3,
-    Category: {
-      id: 3,
-      name: '義大利料理',
-      createdAt: '2019-06-22T09:00:43.000Z',
-      updatedAt: '2019-06-22T09:00:43.000Z'
-    }
-  }
-}
 export default {
   name: 'AdminRestaurant',
   mixins: [emptyImageFilter],
@@ -86,37 +68,39 @@ export default {
       }
     }
   },
-  mounted () {
-    const { id: restaurantId } = this.$route.params
+  created() {
+    const restaurantId = this.$route.params.id
     this.fetchRestaurant(restaurantId)
   },
-  methods: {
-    fetchRestaurant () {
-      const { restaurant } = dummyData
-      //用解構賦值
-      const {
-        id,
-        name,
-        Category,
-        image,
-        opening_hours:openingHours,
-        tel,
-        address,
-        description
-       } = restaurant
-      this.restaurant = {
-        ...this.restaurant,
-        id,
-        name,
-        //if 存在回傳name else未分類
-        categoryName: Category ? Category.name : '未分類',
-        image,
-        openingHours,
-        tel,
-        address,
-        description
+  //要特別留意當使用者從瀏覽器輸入網址而沒有按下重新整理時，需要透過 beforeRouteUpdate 來重新拉取資料。
+  beforeRouteUpdate(to, from, next) {
+    const { id } = to.params
+    this.fetchRestaurant(id)
+    next()
+  },
+    async fetchRestaurant(restaurantId) {
+      try {
+        const { data } = await adminAPI.restaurants.getDetail({ restaurantId })
+        if (!data.restaurant) {
+          throw new Error('error-Fail to fetch data')
+        }
+        const { restaurant } = data
+        this.restaurant = {
+          ...this.restaurant,
+          name: restaurant.name,
+          categoryName: restaurant.Category.name,
+          image: restaurant.image,
+          openingHours: restaurant.opening_hours,
+          tel: restaurant.tel,
+          address: restaurant.address,
+          description: restaurant.description
+        }
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得餐廳資料，請稍後再試'
+        })
       }
     }
   }
-}
 </script>
