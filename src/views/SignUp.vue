@@ -65,11 +65,8 @@
         >
       </div>
 
-      <button
-        class="btn btn-lg btn-primary btn-block mb-3"
-        type="submit"
-      >
-        Submit
+      <button class="btn btn-primary btn-block mb-3" type="submit">
+        {{ isProcessing ? "Processing" : "Submit" }}
       </button>
 
       <div class="text-center mb-3">
@@ -81,7 +78,7 @@
       </div>
 
       <p class="mt-5 mb-3 text-muted text-center">
-        &copy; 2017-2018
+        &copy; 2020-2021
       </p>
     </form>
   </div>
@@ -90,27 +87,88 @@
 <!---JS setting for 資料的雙向綁定--->
 <!---在 <script> 的區塊加入 methods 屬性，並撰寫一個 handleSubmit，用來處理「使用者點下 Submit 按鈕」時，想要觸發的動作--->
 <script>
+import authorizationAPI from '../apis/authorization.js'
+import { Toast } from '../utils/helpers.js'
+
 export default {
   data () {
     return {
       name: '',
       email: '',
       password: '',
-      passwordCheck: ''
+      passwordCheck: '',
+      isProcessing: false
     }
   },
 
   methods: {
-    handleSubmit () {
-      const data = JSON.stringify({
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        passwordCheck: this.passwordCheck
-      })
-
-      // TODO: 向後端驗證使用者登入資訊是否合法
-      console.log('data', data)
+    async handleSubmit() {
+      try {
+        this.isProcessing = true
+        // form validation 
+        if (this.name.trim().length === 0) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入使用者名稱'
+          })
+          return
+        } else if (this.email.length === 0) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入信箱'
+          })
+          return
+        } else if (this.password.length === 0) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入密碼'
+          })
+          return
+        } else if (this.passwordCheck.length === 0) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填入密碼確認欄位'
+          })
+          return
+        } else if (this.password !== this.passwordCheck) {
+          this.passwordCheck = ''
+          Toast.fire({
+            icon: 'warning',
+            title: '密碼不相符，請重新填入密碼'
+          })
+          return
+        }
+        // // post formData to API --failed: API format is not follow the rule
+        // const form = event.target
+        // const formData = new FormData(form)
+        // for (let [name, value] of formData.entries()) {
+        //   console.log(name + ": " + value)
+        // }
+        // const response = await authorizationAPI.signup({ formData })
+        // console.log(response)
+        // // This is an alternative method of posting user registration data to the API
+        const alternativeFormData = {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          passwordCheck: this.passwordCheck
+        }
+        const { data } = await authorizationAPI.signup(alternativeFormData)
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.$router.push({ name: 'sign-in' })
+        Toast.fire({
+          icon: 'success',
+          title: '註冊成功，請登入！'
+        })
+      } catch (error) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'error',
+          title: `註冊失敗 -- ${error} \n 請稍後再試`
+        })
+      }
     }
   }
 }
