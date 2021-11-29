@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import userAPI from './../apis/users'
 
 Vue.use(Vuex)
 
@@ -37,6 +38,27 @@ export default new Vuex.Store({
   },
   //透過API拉取currentUser的資料
   actions: {
+    async fetchCurrentUser () {
+      try {
+        // 呼叫 usersAPI.getCurrentUser() 方法，並將 response 顯示出來
+        const { data } = await userAPI.getCurrentUser()
+        const { id, name, email, image, isAdmin } = data
+        
+        this.commit('setCurrentUser', {
+          id,
+          name,
+          email,
+          image,
+          isAdmin
+        })
+        return true
+      } catch (error) {
+        console.log('error', error)
+        console.error('Failed to fetch user information')
+        this.commit('revokeAuthentication')
+        return false
+      }
+    }
   },
   //
   modules: {
