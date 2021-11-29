@@ -60,44 +60,13 @@
 // seed data 類json種子資料
 // 假資料 dummyUser，這組資料是在串 API 之前，先模擬一組登入使用者
 // 預設的空資料：data 屬性裡的 currentUser，這是在使用者未登入的情況下，Navbar 預設的空資料，他的登入狀態是 false，一旦接受到外部資料，這組 currentUser 就會被覆寫。
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: '管理者',
-    email: 'root@example.com',
-    image: 'https://i.pravatar.cc/300',
-    isAdmin: true
-  },
-  isAuthenticated: true
-}
+import { mapState } from 'vuex'
+  // Step1：移除 dummyUser
 
 export default {
-  // Vue 會在沒有資料時使用此預設值
-  data () {
-    return {
-      currentUser: {
-        id: -1,
-        name: '',
-        email: '',
-        image: '',
-        isAdmin: false
-      },
-      isAuthenticated: false
-    }
+   // Step4：新增 `mapState` 方法
+  computed: {
+    ...mapState(['currentUser', 'isAuthenticated'])
   },
-
-  created () {
-    this.fetchUser()
-  },
-  methods: {
-   // fetchUser 來模擬「把 dummyUser 蓋過 currentUser」的動作取得使用者的資料
-    fetchUser () {
-      this.currentUser = {
-        ...this.currentUser,
-        ...dummyUser.currentUser
-      }
-      this.isAuthenticated = dummyUser.isAuthenticated
-    }
-  }
 }
 </script>
