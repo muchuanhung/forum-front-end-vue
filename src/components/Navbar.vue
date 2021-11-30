@@ -77,3 +77,21 @@ export default {
   } 
 }
 </script>
+
+<!-- scope屬性可以讓樣式特殊化不影響其他元件 -->
+<style scoped>
+  .navbar-toggler {
+    min-width: 70px;
+    margin-right: 0;
+  }
+
+  nav.bg-dark {
+    padding: 14px 16px;
+    background-color: #bd2333 !important;
+  }
+
+  .navbar-brand {
+    font-size: 19px;
+    padding: 0;
+}
+</style>

@@ -28,3 +28,10 @@ export default {
   }
 }
 </script>
+
+<!-- scope屬性可以讓樣式特殊化不影響其他元件 -->
+<style scoped>
+  main {
+    margin-top: 65px !important;
+  }
+</style>
