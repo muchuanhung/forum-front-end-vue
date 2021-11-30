@@ -153,15 +153,16 @@ router.beforeEach(async (to, from, next) => {
   const tokenInLocalStorage = localStorage.getItem('token')
   const tokenInStore = store.state.token
   let isAuthenticated = store.state.isAuthenticated
-
+  //有token的情況下向後端驗證
   if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
     isAuthenticated = await store.dispatch('fetchCurrentUser')
   }
-  // redirect 
+  // redirect 如果token無效轉址到登入頁
   const pathsWithoutAuthentication = ['sign-up', 'sign-in']
   if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
     next('/signin')
     return
+  // redirect如果token有效轉址到餐廳論壇登入頁  
   } else if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
     next('/restaurants')
     return

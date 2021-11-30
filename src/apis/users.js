@@ -8,6 +8,7 @@ export default {
   getUser({ userId }) {
     return apiHelper.get(`/users/${userId}`,)
   },
+  //新增 update API 設定
   updateUser({ userId, formData }) {
     return apiHelper.put(`/users/${userId}`, formData,)
   },

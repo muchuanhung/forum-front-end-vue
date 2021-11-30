@@ -29,6 +29,7 @@ export default new Vuex.Store({
       state.isAuthenticated = true
       state.token = localStorage.getItem('token')
     },
+    // 將使用者的登出狀態改為 false
     revokeAuthentication (state) {
       state.currentUser = {}
       state.isAuthenticated =false
