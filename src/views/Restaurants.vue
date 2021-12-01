@@ -3,6 +3,7 @@
     <NavTabs />
     <!-- 餐廳類別標籤 RestaurantsNavPills -->
     <RestaurantsNavPills :categories="categories" />
+    <Spinner v-if="isLoading" />
     <div class="row">
       <!-- 餐廳卡片 RestaurantCard-->
       <RestaurantCard 
@@ -23,6 +24,8 @@
       :next-page="nextPage"
     />
   </div>
+
+
 </template>
 
 <script>
@@ -33,6 +36,7 @@ import RestaurantsPagination from './../components/RestaurantsPagination.vue'
 // STEP 1：透過 import 匯入剛剛撰寫好用來呼叫 API 的方法
 import restaurantsAPI from './../apis/restaurants'
 import { Toast } from './../utils/helpers'
+import Spinner from '../components/Spinner.vue'
  
 
 export default {
@@ -40,7 +44,8 @@ export default {
     NavTabs,
     RestaurantCard,
     RestaurantsNavPills,
-    RestaurantsPagination
+    RestaurantsPagination,
+    Spinner
   },
   data () {
     return {
@@ -50,7 +55,8 @@ export default {
       currentPage: 1,
       totalPage: [],
       previousPage: -1,
-      nextPage: -1
+      nextPage: -1,
+      isLoading: true
 
     }
   },
@@ -96,6 +102,7 @@ export default {
         this.totalPage = totalPage
         this.previousPage = prev
         this.nextPage = next
+        this.isLoading = false
       } catch (error) {
         console.log('error', error)
         Toast.fire({

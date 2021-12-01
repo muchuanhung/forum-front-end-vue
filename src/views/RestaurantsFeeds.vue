@@ -1,80 +1,77 @@
 <template>
   <div class="container py-5">
-    <!-- 使用 NavTabs 元件 -->
     <NavTabs />
 
-     <h1 class="mt-5">
-      最新動態
-    </h1>
-    <hr>
-    <div class="row">
-
-      <div class="col-md-6">
-        <h3>最新餐廳</h3>
-        <!-- 最新餐廳 NewestRestaurants -->
-        <NewestRestaurants />
-        <!-- :restaurants 是 v-bind:restaurants 的縮寫，而 v-bind 用來把資料綁定到 HTML 標籤裡 -->
-        <NewestRestaurants :restaurants="restaurants" />
+    <h1 class="mt-5">最新動態</h1>
+    <hr />
+    <Spinner v-if="isLoading" />
+    <template v-else>
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h3 class="mb-3">最新餐廳</h3>
+          <!-- 最新餐廳 NewestRestaurants -->
+          <NewestRestaurants :restaurants="restaurants" />
+        </div>
+        <div class="col-md-6">
+          <h3 class="mb-3">最新評論</h3>
+          <!-- 最新評論 NewestComments-->
+          <NewestComments :comments="comments" />
+        </div>
       </div>
-
-      <div class="col-md-6">
-        <h3>最新評論</h3>
-        <!-- 最新評論 NewestComments-->
-        <NewestComments />
-        <!-- :comments 是 v-bind:comments
-         的縮寫，而 v-bind 用來把資料綁定到 HTML 標籤裡 -->
-        <NewestComments :comments="comments" />
-      </div>
-    </div>
-
+    </template>
   </div>
 </template>
 
 <script>
-import NavTabs from './../components/NavTabs'
-import NewestRestaurants from './../components/NewestRestaurants'
-import NewestComments from './../components/NewestComments'
+import NavTabs from '../components/NavTabs.vue'
+import NewestRestaurants from '../components/NewestRestaurants.vue'
+import NewestComments from '../components/NewestComments.vue'
+import Spinner from '../components/Spinner.vue'
 import restaurants from '../apis/restaurants.js'
 import { Toast } from '../utils/helpers.js'
-
 
 export default {
   components: {
     NavTabs,
     NewestRestaurants,
-    NewestComments
+    NewestComments,
+    Spinner
   },
-  //使用data函式將資料放入vue
-   data () {
+  data() {
     return {
       restaurants: [],
-      comments: []
+      comments: [],
+      isLoading: true,
     }
   },
-  created () {
+  created() {
     this.fetchFeeds()
   },
-  //改用async/await語法
-  //呼叫getfeeds去拉資料
-  //撰寫錯誤處理
   methods: {
-      async fetchFeeds () {
+    async fetchFeeds() {
       try {
         const response = await restaurants.getFeeds()
-        console.log('response', response)
         if (response.statusText !== 'OK') {
           throw new Error(response.statusText)
         }
         this.restaurants = response.data.restaurants
         this.comments = response.data.comments
+        this.isLoading = false
       } catch (error) {
         console.log('error', error)
         Toast.fire({
           icon: 'error',
           title: '無法取得最新新動態'
         })
+        this.isLoading = false
       }
+
     }
   }
 }
-</script> 
+</script>
+<style scoped>
+h1 {
+  color: #bd2333;
+}
+</style>
