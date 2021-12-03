@@ -2,12 +2,21 @@
 
 #### This is a front-end project of restaurant forum built by Vue.js.
 
+#### ☞ ☞ Take a look at this [forum-front-end-vue](https://muchuanhung.github.io/forum-front-end-vue/). 👀
+
 ## 🏃‍ Project setup and run
 
 ### Please clone the project
 
 ```bash
 git clone https://github.com/muchuanhung/forum-front-end-vue.git
+```
+
+### Test account for Signin
+
+```bash
+Account: root@example.com
+Password: 12345678
 ```
 
 ### Install dependencies
