@@ -23,7 +23,7 @@ const routes = [
   {
       path: '/',
       name: 'root',
-      redirect: '/restaurants'
+      redirect: '/signin'
   },
     //登入頁面
   {

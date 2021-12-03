@@ -2,25 +2,20 @@
 //從 LocalStorage 取出 token，放進 Header
 //攜帶 page 和 categoryId 參數
 
-
 import { apiHelper } from '../utils/helpers'
-const getToken = () => localStorage.getItem('token')
 
 export default {
-  //新增API設定
-  getRestaurant ({ restaurantId }) {
-    return apiHelper.get(`/restaurants/${restaurantId}`, {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    })
+  getRestaurants({ page, categoryID }) {
+    const searchParams = new URLSearchParams({ page, categoryID })
+    return apiHelper.get(`/restaurants?${searchParams}`)
+  },
+  getRestaurant({ restaurantId }) {
+    return apiHelper.get(`/restaurants/${restaurantId}`)
   },
   getFeeds() {
-    return apiHelper.get('/restaurants/feeds', {
-      headers: { Authorization: `Bearer ${getToken()} ` }
-    })
+    return apiHelper.get('/restaurants/feeds')
   },
   getRestaurantsTop() {
-    return apiHelper.get(`/restaurants/top`, {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    })
+    return apiHelper.get(`/restaurants/top`)
   }
 }
