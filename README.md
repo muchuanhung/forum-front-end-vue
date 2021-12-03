@@ -10,12 +10,6 @@
 git clone https://github.com/muchuanhung/forum-front-end-vue.git
 ```
 
-### Please clone the project
-
-```bash
-git clone https://github.com/muchuanhung/forum-front-end-vue.git
-```
-
 ### Install dependencies
 
 ```bash
